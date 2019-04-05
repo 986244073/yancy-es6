@@ -100,24 +100,53 @@ a = 123;
 alert(a);//TypeError: invalid assignment to const `a'
 ```
 
+## 作用域
+
+1.传统函数级
+
+2.ES6块级
+
+
+
+## 语法块
+
+```
+{}
+
+if(){
+
+}
+
+for(){
+
+}
+
+{
+
+}
+
+```
+
+
+
 # 四丶函数
 
-## 箭头函数
+## 箭头函数(可以修复this)
 
 只是简写
 
 ```javascript
-function 名字(){
+function 名字(参数){
 
 }
-()=>{
+(参数)=>{
 
 }
 ```
 
-1.如果只有一个参数，()可以省
+1.如果，有且仅有1个参数，()也可以省
 
-2.如果只有一个return，{}可以省
+2.如果，有且仅有1条语句-return，{}可以省(json一般不简写)
 
 ```javascript   
     let show=a=>a*2;
@@ -204,7 +233,6 @@ json:
 
 ```javascript
     let {a, c, d}={a: 12, c: 5, d: 6};
-
     console.log(a, c, d);
 ```
 
@@ -233,7 +261,7 @@ json:
     console.log(a,b);//Uncaught SyntaxError: Missing initializer in destructuring declaration
 ```
 
-# 六丶数组
+# 六丶系统对象
 
 ## map       映射          
 
@@ -242,9 +270,9 @@ json:
   [不及格, 不及格, 及格, 及格, 不及格, 及格]
 
 ```javascript
-let score=[19, 85, 99, 25, 90];
-
-let result=score.map(item=>item>=60?'及格':'不及格');
+let arr=[19, 85, 99, 25, 90];
+//用item分别存储
+let result=arr.map(item=>item>=60?'及格':'不及格');
 
 alert(score);
 alert(result);
@@ -266,10 +294,10 @@ alert(result);
 
 ```javascript
  let arr=[12,69,180,8763];
-
-let result=arr.reduce(function (tmp, item, index){
+//tmp为前面的和 12+69  item=180
+let result=arr.reduce( (tmp, item, index){
       //alert(tmp+','+item+','+index);
-      return tmp+item;
+      return tmp+item; //tmp为前面的和 12+69  item=180
 });
 
 alert(result);
@@ -310,7 +338,7 @@ alert(result);
       {title: '女士鞋', price: 27531}
     ];
 
-    let result=arr.filter(json=>json.price>=10000);
+    let result=arr.filter(item=>item.price>=10000);
 
     console.log(result);
 ```
@@ -329,7 +357,8 @@ alert(index+': '+item);
 
 # 七丶字符串
 
-1.多了两个新方法
+## 1.多了两个新方法
+
   startsWith
 
 ```javascript
@@ -366,7 +395,8 @@ let str='git://www.baidu.com/2123123';
 
 
 
-2.字符串模板
+## 2.字符串模板
+
   字符串连接
 
 ```javascript
@@ -557,5 +587,81 @@ React：
 
 # 九丶json
 
+## 1.标准写法
 
+```json
+{"key": "aaa", "key2": 12} 
+```
+
+## 2.JSON对象
+
+stringify 把json转换成字符串
+parse   字符串转换json
+
+# 十丶异步处理
+
+## 异步——多个操作可以一起进行，互不干扰 √
+
+
+
+
+
+```javascript
+$.ajax({
+  url: 'data/1.json',
+  dataType: 'json',
+  success(data1){
+    $.ajax({
+      url: 'data/2.json',
+      dataType: 'json',
+      success(data2){
+        $.ajax({
+          url: 'data/3.json',
+          dataType: 'json',
+          success(data3){
+            console.log(data1, data2, data3);
+          }
+        });
+      }
+    });
+  }
+});
+```
+
+## 同步——操作一个个进行
+
+```javascript
+let data1=$.ajax('data/1.json');
+let data2=$.ajax('data/2.json');
+let data3=$.ajax('data/3.json');
+```
+
+## Promise
+
+```javascript
+  Promise.all([
+      $.ajax({url: 'data/1.json', dataType: 'json'}),
+      $.ajax({url: 'data/2.json', dataType: 'json'}),
+      $.ajax({url: 'data/3.json', dataType: 'json'}),
+    ]).then(([data1, data2, data3])=>{
+      console.log(data1, data2, data3);
+    }, (res)=>{
+      alert('错了');
+    });
+```
+
+# async/await
+
+```javascript
+ async function show(){
+      let data1=await $.ajax({url: 'data/1.json', dataType: 'json'});
+      if(data1.a<10){
+        let data2=await $.ajax({url: 'data/2.json', dataType: 'json'});
+        alert('a');
+      }else{
+        let data3=await $.ajax({url: 'data/3.json', dataType: 'json'});
+        alert('b');
+      }
+    }
+```
 
