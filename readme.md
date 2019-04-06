@@ -30,9 +30,13 @@
 > http://kangax.github.io/compat-table/es5/
 > http://kangax.github.io/compat-table/es6/
 
-ES6(ES2015)支持IE10+、Chrome、FireFox、移动端、NodeJS
+## ES6(ES2015)
 
-不支持可以:1.在线转换2.提前编译
+支持IE10+、Chrome、FireFox、移动端、NodeJS
+
+不支持可以:
+
+1.在线转换
 
 ```html
 <!DOCTYPE html>
@@ -54,7 +58,45 @@ ES6(ES2015)支持IE10+、Chrome、FireFox、移动端、NodeJS
 
 ```
 
+2.NodeJS编译
 
+安装node 并且执行`node init -y`
+
+` npm i @babel/core @babel/cli @babel/preset-env`
+
+添加脚本
+
+```
+"scripts":{
+    "build":"babel src -d test"
+}
+```
+
+  添加.babelrc——声明preset
+
+```
+{
+  "presets": ["@babel/preset-env"]
+}
+
+```
+
+## ES7(ECMA 2016)
+
+**求幂
+
+ Array.includes()
+
+## ES8(ECMA 2017)
+
+  await/async
+
+## ES9(ECMA 2018)
+
+  rest/spread
+  异步迭代
+  Promise.finally()
+  正则
 
 # 三丶变量
 
@@ -650,7 +692,7 @@ let data3=$.ajax('data/3.json');
     });
 ```
 
-# async/await
+## async/await
 
 ```javascript
  async function show(){
@@ -664,4 +706,93 @@ let data3=$.ajax('data/3.json');
       }
     }
 ```
+
+# 十一丶闭包
+
+1.底层：栈
+2.高层：函数当作对象处理
+
+# 十二丶模块化
+
+## webpack
+
+安装 `npm i webpack -g`
+
+### 新建配置文件
+
+`webpack.config.js`
+
+```
+const path=require('path');
+
+module.exports={
+  mode: 'production',
+  entry: './index.js',
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js'
+  }
+};
+
+```
+
+1.entry——入口地址
+2.output——输出
+  path：绝对路径
+  filename：文件名
+3.mode——模式
+4.所有当前路径前面加./
+
+
+
+### export
+
+```
+  export let a=xx;
+  export const a=xx;
+
+  export function xxx(){
+
+  };
+
+  export class xxx{
+
+  }
+
+  export {xxx, xxx, xxx, ...};
+
+  export default xx;
+```
+
+### 导入模块
+
+```
+import * as mod from "./xxx";
+import {a, b, c, ...} from "./xxx";
+```
+
+```
+  //从另一个模块导出
+  export * from './m2';
+  export {x,x,x,x} from './m2';
+  export {default} from './m2';
+```
+
+### import
+
+```
+  import * as mod from "./xxx";
+  import {a, b, c, ...} from "./xxx";
+
+  //引入默认成员
+  import xxx from './mod';
+
+  //模块的代码引入进来，不引入内部成员
+  import "./1.jpg";
+  import "./1.css";
+
+  //异步引入
+  let promise=import("./mod1");
+```
+
 
